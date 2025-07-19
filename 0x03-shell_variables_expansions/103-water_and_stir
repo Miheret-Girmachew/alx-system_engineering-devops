@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Convert custom base 'water' to standard base 5
+w_dec=$(echo "$WATER" | tr 'water' '01234')
+w_dec_val=$((5#$w_dec))
+
+# Convert custom base 'stir' to standard base 5
+# Note: The original prompt might have a typo. Let's assume stir is also base 5
+# for this to work as an "addition". The digits are 's','t','i','r','.'
+s_dec=$(echo "$STIR" | tr 'stir.' '01234')
+s_dec_val=$((5#$s_dec))
+
+# Add the decimal values
+total_dec=$((w_dec_val + s_dec_val))
+
+# Convert the final decimal to base 8 (octal) using bc, then pipe to tr
+# The output base 'bestchol' has 8 unique digits.
+echo "obase=8; $total_dec" | bc | tr '01234567' 'bestchol'
